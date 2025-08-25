@@ -33,7 +33,7 @@ from bill.bill import bill_bp
 from budget.budget import budget_bp
 from summaries.routes import summaries_bp
 from shopping.shopping import shopping_bp
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, get_jwt
 
 # Load environment variables
 load_dotenv()
@@ -90,6 +90,17 @@ except Exception as e:
     logger.error('MongoDB connection failed: %s', str(e))
     raise
 
+# JWT Blacklist for Logout:
+app.config['JWT_TOKEN_LOCATION'] = ['headers']
+app.config['JWT_BLACKLIST_ENABLED'] = True
+app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access']
+jwt = JWTManager(app)
+
+@jwt.token_in_blocklist_loader
+def check_if_token_in_blocklist(jwt_header, jwt_payload):
+    db = utils.get_mongo_db()
+    return db.jwt_blacklist.find_one({'jti': jwt_payload['jti']}) is not None
+
 # User class defined at module level
 class User(UserMixin):
     def __init__(self, id, email, display_name=None, role='personal'):
@@ -128,7 +139,7 @@ def create_app():
     CSRFProtect(app)
     login_manager = LoginManager(app)
     login_manager.login_view = 'users.login'
-    jwt = JWTManager(app)  # Initialize JWTManager
+    # jwt = JWTManager(app)  # Initialize JWTManager - Already done at the top
 
     # Session decorator - now requires authentication
     def ensure_session_id(f):
