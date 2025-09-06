@@ -475,20 +475,6 @@ def create_app():
         if 'lang' not in session:
             session['lang'] = 'en'  # Default language
 
-    # Redirect from onrender.com to custom domain
-    @app.before_request
-    def handle_redirects():
-        host = request.host
-
-        # Redirect onrender.com to custom domain
-        if host.endswith("onrender.com"):
-            new_url = request.url.replace("onrender.com", "business.ficoreafrica.com")
-            return redirect(new_url, code=301)
-
-        # Redirect www to root domain
-        if host.startswith("www."):
-            new_url = request.url.replace("www.", "", 1)
-            return redirect(new_url, code=301)
 
     # Set up Jinja globals
     app.jinja_env.globals.update(
