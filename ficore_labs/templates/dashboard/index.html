@@ -96,7 +96,7 @@
             <i class="bi bi-bell me-2"></i>
             <div>
                 {{ trans('reminder_log_today', default="Have you recorded today’s sales or expenses? Keep your records up to date!") | escape }}
-                <a href="{{ url_for('business.index') }}" class="btn btn-sm btn-primary ms-2">{{ trans('log_now', default='Log Now') | escape }}</a>
+                <a href="{{ url_for('business.home') }}" class="btn btn-sm btn-primary ms-2">{{ trans('log_now', default='Log Now') | escape }}</a>
             </div>
         </div>
         {% endif %}
