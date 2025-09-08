@@ -91,7 +91,6 @@
                                 <i class="bi bi-box-seam me-2"></i>{{ t('inventory_nav_label', default='Inventory') }}
                             </a>
                         </li>
-                        {% endfor %}
                         <li class="nav-item">
                             <div class="language-buttons d-flex">
                                 <button class="nav-link btn btn-link language-btn {% if current_lang == 'en' %}active{% endif %}" id="navLangEnBtn" onclick="setLanguage('en')" data-bs-toggle="tooltip" data-bs-title="{{ t('general_language_english', default='Switch to English') | e }}">EN</button>
