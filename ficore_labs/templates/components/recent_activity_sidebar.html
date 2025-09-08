@@ -43,11 +43,11 @@ if (!userSidebarEnabled) {
         </div>
         
         <div class="sidebar-footer">
-            <a href="{{ url_for('business.add_sale') }}" class="btn btn-sm btn-success w-100 mb-2">
+            <a href="{{ url_for('receipt.index') }}" class="btn btn-sm btn-success w-100 mb-2">
                 <i class="bi bi-plus-circle me-1"></i>
                 {{ t('quick_add_sale', default='Add Sale') | e }}
             </a>
-            <a href="{{ url_for('business.add_expense') }}" class="btn btn-sm btn-danger w-100 mb-2">
+            <a href="{{ url_for('payment.index') }}" class="btn btn-sm btn-danger w-100 mb-2">
                 <i class="bi bi-dash-circle me-1"></i>
                 {{ t('quick_add_expense', default='Add Expense') | e }}
             </a>
@@ -451,17 +451,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const persistentToggle = document.getElementById('sidebarPersistentToggle');
     const dragHandle = document.getElementById('sidebarDragHandle');
     
-
-
     // Check user preference from server-side setting
     {% if current_user.is_authenticated %}
-    <script>
     var userSidebarEnabled = {{ current_user.settings.get('activity_sidebar_enabled', True) | tojson }};
     if (!userSidebarEnabled) {
         sidebarDisabled = true;
         localStorage.setItem('sidebarDisabled', 'true');
     }
-    </script>
     {% endif %}
     
     updateSidebarVisibility();
